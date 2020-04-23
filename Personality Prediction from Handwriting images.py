@@ -176,33 +176,3 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-
-
-    
-''' Part D '''
-path = 'dataset/single_prediction/diseased_or_healthy_2.jpg'
-test_image = image.load_img(path, target_size=(128,128)) #Dimensions already specified
-# Now since the data that we need to have should be a 3D, 3rd being the 3 for RGB
-test_image = image.img_to_array(test_image)
-# The data for the prediction needs to be 4D. 4th being the batch. Even though it is single but predict function
-# expects the data to be in form of batches
-test_image = np.expand_dims(test_image, axis=0)
-result = model.predict(test_image)
-print(result)
-# training_set.class_indices can be used to check the category encoding
-animal = ""
-if result==0:
-    animal = "Diseased"
-else:
-    animal = "Healthy"
-    
-from PIL import Image, ImageDraw, ImageFont
-image = Image.open(path)
-font_type = ImageFont.truetype('arial.ttf',30)
-draw = ImageDraw.Draw(image)
-draw.text(xy=(0,0),text=animal,fill=(0,0,0),font=font_type)
-image.show()
-    
-""" To improve accuracy, one more convulation layer can be added with either same or different parameters.
-    Add it after the max pooling and before the flattening.
-    Next layer won't be having input_shape parameter. Keras will automatically accept the pool of previous layer."""
